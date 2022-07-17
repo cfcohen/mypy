@@ -118,6 +118,16 @@ def _is_subtype(left: Type, right: Type,
             return True
         elif is_named_instance(left, 'builtins.complex') and sright in number_types[:2]:
             return True
+    elif is_named_instance(left, 'builtins.float') and sright.startswith('mymath'):
+        if is_named_instance(right, 'mymath.number.OrderedReal'):
+            return True
+    elif is_named_instance(left, 'builtins.int') and sright.startswith('mymath'):
+        if is_named_instance(right, 'mymath.number.OrderedIntegral'):
+            return True
+        elif is_named_instance(right, 'mymath.number.OrderedRational'):
+            return True
+        elif is_named_instance(right, 'mymath.number.OrderedReal'):
+            return True
     orig_right = right
     orig_left = left
     left = get_proper_type(left)
