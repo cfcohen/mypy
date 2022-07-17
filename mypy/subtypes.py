@@ -109,6 +109,15 @@ def _is_subtype(left: Type, right: Type,
                 ignore_declared_variance: bool = False,
                 ignore_promotions: bool = False,
                 options: Optional[Options] = None) -> bool:
+    number_types = ["numbers.Number", "numbers.Complex", "numbers.Real", "numbers.Rational", "numbers.Integral"]
+    sright = str(right)
+    if sright in number_types:
+        if is_named_instance(left, 'builtins.int') and sright in number_types:
+            return True
+        elif is_named_instance(left, 'builtins.float') and sright in number_types[:3]:
+            return True
+        elif is_named_instance(left, 'builtins.complex') and sright in number_types[:2]:
+            return True
     orig_right = right
     orig_left = left
     left = get_proper_type(left)
